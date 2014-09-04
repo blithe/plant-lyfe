@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'plant_lyfe_app',
     'south',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
