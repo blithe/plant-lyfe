@@ -9,8 +9,6 @@ from rest_framework_nested import routers
 from django.contrib import admin
 admin.autodiscover()
 
-import plant_lyfe_app.views
-
 # Serializers define the API representation.
 class PlantSerializer(serializers.HyperlinkedModelSerializer):
     leaves = serializers.SlugRelatedField(many=True, slug_field='url')
@@ -52,7 +50,6 @@ urlpatterns = patterns('',
 
     url(r'^', include(router.urls)),
     url(r'^', include(dicots_router.urls)),
-    url(r'^index', plant_lyfe_app.views.index, name='index'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
 )
