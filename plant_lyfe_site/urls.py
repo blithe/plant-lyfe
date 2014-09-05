@@ -20,7 +20,7 @@ class PlantSerializer(serializers.HyperlinkedModelSerializer):
 class LeafSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leaf
-        fields = ('id', 'plant', 'placement', 'date_found')
+        fields = ('id', 'plant', 'placement', 'blade', 'veins', 'location', 'date_found')
 
 # ViewSets define the view behavior.
 class PlantViewSet(viewsets.ModelViewSet):
