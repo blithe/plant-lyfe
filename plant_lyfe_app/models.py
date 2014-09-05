@@ -15,4 +15,6 @@ class Leaf(models.Model):
     veins = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     date_found = models.DateField('date-found')
-    url = "/dicots/%(plant.common_name)-%(plant-id)/leaf/%(id)"
+
+    def __unicode__(self):
+        return self.id
