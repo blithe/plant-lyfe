@@ -55,6 +55,14 @@ ROOT_URLCONF = 'plant_lyfe_site.urls'
 WSGI_APPLICATION = 'plant_lyfe_site.wsgi.application'
 
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
