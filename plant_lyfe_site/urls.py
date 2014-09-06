@@ -11,11 +11,15 @@ admin.autodiscover()
 
 # Serializers define the API representation.
 class PlantSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.SerializerMethodField('label_id')
     leaves = serializers.RelatedField(many=True)
 
     class Meta:
         model = Plant
         fields = ('id', 'common_name', 'subclass', 'order', 'family', 'genus', 'species', 'leaves')
+
+    def label_id(self, obj):
+      return "plant-" + str(obj.id)
 
 class LeafSerializer(serializers.ModelSerializer):
     class Meta:
