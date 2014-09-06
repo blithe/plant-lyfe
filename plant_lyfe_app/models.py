@@ -8,7 +8,7 @@ class Plant(models.Model):
     family = models.CharField(max_length=200)
     genus = models.CharField(max_length=200)
     species = models.CharField(max_length=200)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.common_name)
