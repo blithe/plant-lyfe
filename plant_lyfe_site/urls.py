@@ -26,6 +26,7 @@ class LeafSerializer(serializers.ModelSerializer):
 class PlantViewSet(viewsets.ModelViewSet):
     queryset = Plant.objects.all()
     serializer_class = PlantSerializer
+    lookup_field = 'slug'
 
 class LeafViewSet(viewsets.ModelViewSet):
     queryset = Leaf.objects.all()
