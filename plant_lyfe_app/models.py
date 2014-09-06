@@ -23,4 +23,7 @@ class Leaf(models.Model):
     date_found = models.DateField('date-found')
 
     def __unicode__(self):
-        return self.id
+        return self.get_absolute_url()
+
+    def get_absolute_url(self):
+        return "/dicots/%s/leaf/%i" % (self.plant.slug, self.id)
