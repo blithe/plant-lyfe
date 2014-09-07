@@ -1,5 +1,6 @@
 from django.test import TestCase
 from plant_lyfe_app.models import Plant, Leaf
+
 from rest_framework import status
 from rest_framework.test import APITestCase
 import json
@@ -180,10 +181,10 @@ class ApiTestCase(APITestCase):
                 "blade": "palmately compound",
                 "veins": "penniveined",
                 "location": "Vancouver, BC",
-                "date-found": "2014-01-01"
+                "date_found": "2014-01-01"
               }
-
       response = self.client.post('/dicots/mahogany/', request_data, format='json')
+
       created_leaf = Leaf.objects.latest('id')
       expected_data = {
           "id": "leaf-%i" % (created_leaf.id),
@@ -192,7 +193,7 @@ class ApiTestCase(APITestCase):
           "blade": "palmately compound",
           "veins": "penniveined",
           "location": "Vancouver, BC",
-          "date-found": "2014-01-01"
+          "date_found": "2014-01-01"
         }
 
       self.assertEqual(response.status_code, status.HTTP_201_CREATED)

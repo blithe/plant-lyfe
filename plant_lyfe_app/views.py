@@ -8,6 +8,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+import code
+
 class PlantList(APIView):
 
     def get(self, request, format=None):
@@ -44,11 +46,22 @@ class PlantDetail(APIView):
 
     def post(self, request, slug, format=None):
       plant = self.get_object(slug)
-      serializer = PlantSerializer(plant, data=request.DATA, partial=True)
-      if serializer.is_valid():
-          serializer.save()
-          return Response(serializer.data)
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      leaf_attributes_to_check = ['placement', 'blade', 'veins', 'location', 'date_found']
+
+      if any(attribute in request.DATA for attribute in leaf_attributes_to_check):
+        serializer = LeafSerializer(data=request.DATA)
+
+        if serializer.is_valid():
+            serializer.object.plant=plant
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      else:
+        serializer = PlantSerializer(plant, data=request.DATA, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, slug, format=None):
         plant = self.get_object(slug)
