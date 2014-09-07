@@ -114,13 +114,13 @@ and then restart the app with ``heroku restart``.
       }
 
 ### Supported Functionality:
-  Creating a Plant resource
-  Creating a Leaf resource subordinate to a Plant resource
-  Deleting a Leaf resource
-  Deleting a Plant resource (should delete linked Leaf resources)
-  Updating a Plant or Leaf resource
-  Retrieving a representation of a Plant or Leaf resource
-  Searching for Leaf resources based on taxonomic criteria
+  * Creating a Plant resource
+  * Creating a Leaf resource subordinate to a Plant resource
+  * Deleting a Leaf resource
+  * Deleting a Plant resource (should delete linked Leaf resources)
+  * Updating a Plant or Leaf resource
+  * Retrieving a representation of a Plant or Leaf resource
+  * Searching for Leaf resources based on taxonomic criteria
 
 ### Specific API Calls:
 
