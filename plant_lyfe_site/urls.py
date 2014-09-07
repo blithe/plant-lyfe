@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import RedirectView
 
 from plant_lyfe_app.models import Plant, Leaf
 from plant_lyfe_app.views import PlantList, PlantDetail, LeafList, LeafDetail
@@ -19,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^dicots/leaf/search$', LeafList.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^.*$', RedirectView.as_view(url='/dicots', permanent=False), name='index')
 )
