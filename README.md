@@ -21,7 +21,7 @@ config](https://devcenter.heroku.com/articles/config-vars). See the list of requ
 
 ```bash
 # Checkout the repo
-git clone git@github.com:bignerdranch/plant-lyfe.git
+git clone git@github.com:blithe/plant-lyfe.git
 cd plant-lyfe
 
 # Use virtualenv to set up a virtual environment
