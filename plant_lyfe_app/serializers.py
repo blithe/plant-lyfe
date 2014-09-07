@@ -34,3 +34,14 @@ class LeafSerializer(serializers.ModelSerializer):
 
     def label_id(self, obj):
       return "leaf-" + str(obj.id)
+
+class LeafListSerializer(serializers.ModelSerializer):
+    id = serializers.SerializerMethodField('label_id')
+    plant = serializers.RelatedField()
+
+    class Meta:
+        model = Leaf
+        fields = ('id', 'plant')
+
+    def label_id(self, obj):
+      return "leaf-" + str(obj.id)

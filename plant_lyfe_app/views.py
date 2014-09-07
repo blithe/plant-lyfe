@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import Http404
 
-from plant_lyfe_app.serializers import PlantListSerializer, PlantSerializer, LeafSerializer
+from plant_lyfe_app.serializers import PlantListSerializer, PlantSerializer, LeafListSerializer, LeafSerializer
 from plant_lyfe_app.models import Plant, Leaf
+from plant_lyfe_app.filters import LeafFilter
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -67,6 +68,14 @@ class PlantDetail(APIView):
         plant = self.get_object(slug)
         plant.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class LeafList(APIView):
+
+    def get(self, request, format=None):
+        leaves = Leaf.objects.all()
+        filter = LeafFilter(request.GET, queryset=leaves)
+        serializer = LeafListSerializer(filter, many=True)
+        return Response({'leaves': serializer.data})
 
 class LeafDetail(APIView):
 

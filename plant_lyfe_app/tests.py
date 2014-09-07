@@ -4,26 +4,6 @@ from plant_lyfe_app.models import Plant, Leaf
 from rest_framework import status
 from rest_framework.test import APITestCase
 import json
-import code
-
-class PlantTestCase(TestCase):
-    def setUp(self):
-        Plant.objects.create(common_name="bigleaf maple",
-                             subclass="Rosidae",
-                             order="Sapindales",
-                             family="Aceraceae",
-                             genus="Acer L.",
-                             species="Acer macrophyllum Pursh",
-                             )
-
-    def test_plants_have_subclasses(self):
-        """Plants have all the correct attributes"""
-        maple = Plant.objects.get(common_name="bigleaf maple")
-        self.assertEqual(maple.subclass, 'Rosidae')
-        self.assertEqual(maple.order, 'Sapindales')
-        self.assertEqual(maple.family, 'Aceraceae')
-        self.assertEqual(maple.genus, 'Acer L.')
-        self.assertEqual(maple.species, 'Acer macrophyllum Pursh')
 
 class ApiTestCase(APITestCase):
     def test_get_dicots_returns_plant_list(self):
@@ -282,5 +262,41 @@ class ApiTestCase(APITestCase):
         }
 
       response = self.client.post("/dicots/mahogany/leaf/%i/" % (leaf.id), request_data, format='json')
+      self.assertEqual(response.status_code, status.HTTP_200_OK)
+      self.assertJSONEqual(response.content, json.dumps(expected_data))
+
+    def test_get_leaf_search_returns_leaf_list(self):
+      """URL: GET /dicots/leaf/search?placement=opposite&blade=plamately%20compound GET - Should return a list of Leaf resources matching the submitted criteria"""
+      self.maxDiff=None
+      plant1 = Plant.objects.create(common_name="bigleaf maple",
+                             subclass="Rosidae",
+                             order="Sapindales",
+                             family="Aceraceae",
+                             genus="Acer L.",
+                             species="Acer macrophyllum Pursh",
+                             )
+      plant2 = Plant.objects.create(common_name="big green thing",
+                           subclass="Rosidae",
+                           species="latinus nameus",
+                           )
+      leaf1 = Leaf.objects.create(plant=plant1, placement="opposite", blade="palmately compound", date_found="2014-01-01")
+      leaf2 = Leaf.objects.create(plant=plant1, placement="opposite", blade="other", date_found="2014-01-01")
+      leaf3 = Leaf.objects.create(plant=plant2, placement="opposite", blade="palmately compound", date_found="2014-01-01")
+      leaf4 = Leaf.objects.create(plant=plant2, placement="other", blade="something else", date_found="2014-01-01")
+      leaf5 = Leaf.objects.create(plant=plant2, placement="I dunno", blade="that one kind", date_found="2014-01-01")
+
+      response = self.client.get('/dicots/leaf/search?placement=opposite&blade=palmately%20compound')
+      expected_data = {
+          "leaves": [
+            {
+              "id": "leaf-%i" % (leaf1.id),
+              "plant": "plant-%i" % (plant1.id)
+            },
+            {
+              "id": "leaf-%i" % (leaf3.id),
+              "plant": "plant-%i" % (plant2.id)
+            }
+          ]
+        }
       self.assertEqual(response.status_code, status.HTTP_200_OK)
       self.assertJSONEqual(response.content, json.dumps(expected_data))
