@@ -26,7 +26,7 @@ class ApiTestCase(APITestCase):
       leaf4 = Leaf.objects.create(plant=plant2, date_found="2014-01-01")
       leaf5 = Leaf.objects.create(plant=plant2, date_found="2014-01-01")
 
-      response = self.client.get('/dicots/')
+      response = self.client.get('/dicots')
       expected_data = {
           "plants": [
             {
@@ -77,7 +77,7 @@ class ApiTestCase(APITestCase):
           ]
         }
 
-      response = self.client.get('/dicots/bigleaf-maple/')
+      response = self.client.get('/dicots/bigleaf-maple')
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
     def test_put_dicot_name_creates_plant(self):
@@ -90,7 +90,7 @@ class ApiTestCase(APITestCase):
                 "genus": "Swietenia",
                 "species": "Sweitenia mahagoni"
               }
-      response = self.client.put('/dicots/mahogany/', request_data, format='json')
+      response = self.client.put('/dicots/mahogany', request_data, format='json')
       created_plant = Plant.objects.latest('id')
       expected_data = {
           "id": "plant-%i" % (created_plant.id),
@@ -111,7 +111,7 @@ class ApiTestCase(APITestCase):
       Plant.objects.create(common_name="mahogany plant",
                            species="Acer macrophyllum Pursh",
                            )
-      response = self.client.delete('/dicots/mahogany-plant/')
+      response = self.client.delete('/dicots/mahogany-plant')
       self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_post_dicot_name_updates_plant(self):
@@ -142,7 +142,7 @@ class ApiTestCase(APITestCase):
           "leaves": []
         }
 
-      response = self.client.post('/dicots/mahogany/', request_data, format='json')
+      response = self.client.post('/dicots/mahogany', request_data, format='json')
       self.assertEqual(response.status_code, status.HTTP_200_OK)
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
@@ -163,8 +163,7 @@ class ApiTestCase(APITestCase):
                 "location": "Vancouver, BC",
                 "date_found": "2014-01-01"
               }
-      response = self.client.post('/dicots/mahogany/', request_data, format='json')
-
+      response = self.client.post('/dicots/mahogany', request_data, format='json')
       created_leaf = Leaf.objects.latest('id')
       expected_data = {
           "id": "leaf-%i" % (created_leaf.id),
@@ -205,7 +204,7 @@ class ApiTestCase(APITestCase):
           "date_found": "2014-01-01"
         }
 
-      response = self.client.get("/dicots/bigleaf-maple/leaf/%i/" % (leaf.id))
+      response = self.client.get("/dicots/bigleaf-maple/leaf/%i" % (leaf.id))
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
     def test_delete_leaf_name_deletes_leaf(self):
@@ -225,7 +224,7 @@ class ApiTestCase(APITestCase):
                                  date_found="2014-01-01"
                                 )
 
-      response = self.client.delete("/dicots/bigleaf-maple/leaf/%i/" % (leaf.id))
+      response = self.client.delete("/dicots/bigleaf-maple/leaf/%i" % (leaf.id))
       self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_post_leaf_updates_leaf(self):
@@ -261,7 +260,7 @@ class ApiTestCase(APITestCase):
           "date_found": "2010-10-10"
         }
 
-      response = self.client.post("/dicots/mahogany/leaf/%i/" % (leaf.id), request_data, format='json')
+      response = self.client.post("/dicots/mahogany/leaf/%i" % (leaf.id), request_data, format='json')
       self.assertEqual(response.status_code, status.HTTP_200_OK)
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
