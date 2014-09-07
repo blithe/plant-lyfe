@@ -50,6 +50,7 @@ class ApiTestCase(APITestCase):
             }
           ]
         }
+      self.assertEqual(response.status_code, status.HTTP_200_OK)
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
     def test_get_dicot_name_returns_plant_details(self):
@@ -78,6 +79,7 @@ class ApiTestCase(APITestCase):
         }
 
       response = self.client.get('/dicots/bigleaf-maple')
+      self.assertEqual(response.status_code, status.HTTP_200_OK)
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
     def test_put_dicot_name_creates_plant(self):
@@ -205,6 +207,7 @@ class ApiTestCase(APITestCase):
         }
 
       response = self.client.get("/dicots/bigleaf-maple/leaf/%i" % (leaf.id))
+      self.assertEqual(response.status_code, status.HTTP_200_OK)
       self.assertJSONEqual(response.content, json.dumps(expected_data))
 
     def test_delete_leaf_name_deletes_leaf(self):
