@@ -1,5 +1,7 @@
 # Plant Lyfe
 
+An API for managing plant identification information, limited to leaves of the Dicotyledon taxa of flowering plants (Plantae > Vascular Plants > Seeded Plants > Angiosperms > Dicotyledon).
+
 Production: [http://plant-lyfe.herokuapp.com](http://plant-lyfe.herokuapp.com) is hosted on
 [Heroku](http://www.heroku.com).
 
