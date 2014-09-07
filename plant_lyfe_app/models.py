@@ -14,6 +14,9 @@ class Plant(models.Model):
         self.slug = slugify(self.common_name)
         super(Plant, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return "plant-" + str(self.id)
+
 class Leaf(models.Model):
     plant = models.ForeignKey(Plant, related_name='leaves')
     placement = models.CharField(max_length=200)
